@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "OAuth\\": "src/OAuth"
+            "CQ\\Auth\\": "src/OAuth"
         }
     },
     "minimum-stability": "dev",

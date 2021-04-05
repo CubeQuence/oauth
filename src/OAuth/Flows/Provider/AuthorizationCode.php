@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OAuth\Flows\Provider;
+namespace CQ\OAuth\Flows\Provider;
 
-use OAuth\Exceptions\AuthException;
-use OAuth\Flows\FlowProvider;
-use OAuth\Helpers\Random;
+use CQ\OAuth\Exceptions\AuthException;
+use CQ\OAuth\Flows\FlowProvider;
+use CQ\OAuth\Helpers\Random;
 
 final class AuthorizationCode extends FlowProvider
 {

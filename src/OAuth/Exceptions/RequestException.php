@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OAuth\Exceptions;
+namespace CQ\OAuth\Exceptions;
 
 use Exception;
 use Psr\Http\Client\RequestExceptionInterface as ExceptionInterface;

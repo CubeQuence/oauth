@@ -1,7 +1,7 @@
 <?php
 
-use OAuth\Client;
-use OAuth\Flows\Provider\Device;
+use CQ\OAuth\Client;
+use CQ\OAuth\Flows\Provider\Device;
 
 session_start();
 

@@ -1,7 +1,7 @@
 <?php
 
-use OAuth\Client;
-use OAuth\Flows\Provider\AuthorizationCode;
+use CQ\OAuth\Client;
+use CQ\OAuth\Flows\Provider\AuthorizationCode;
 
 session_start();
 

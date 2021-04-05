@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OAuth\Flows;
+namespace CQ\OAuth\Flows;
 
-use OAuth\Client;
+use CQ\OAuth\Client;
 
 abstract class FlowProvider
 {

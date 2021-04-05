@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OAuth\Helpers;
+namespace CQ\OAuth\Helpers;
 
 final class Random
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OAuth;
+namespace CQ\OAuth;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
-use OAuth\Exceptions\RequestException;
-use OAuth\Flows\FlowProvider;
+use CQ\OAuth\Exceptions\RequestException;
+use CQ\OAuth\Flows\FlowProvider;
 
 final class Client
 {
