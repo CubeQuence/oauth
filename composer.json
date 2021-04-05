@@ -1,0 +1,40 @@
+{
+    "name": "cubequence/oauth",
+    "description": "PHP FusionAuth client made for CubeQuence",
+    "keywords": [
+        "oauth",
+        "cubequence"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luca Castelnuovo",
+            "email": "luca@castelnuovo.xyz"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "nunomaduro/phpinsights": "dev-master",
+        "pestphp/pest": "^1.0"
+    },
+    "scripts": {
+        "tests": "./vendor/bin/pest"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "OAuth\\": "src/OAuth"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/CubeQuence/oauth/issues",
+        "source": "https://github.com/CubeQuence/oauth"
+    }
+}
