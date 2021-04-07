@@ -33,13 +33,24 @@ try {
         storedVar: $_SESSION['state']
     );
 
-    $user = $client->getUser($tokens->access_token);
+    $user = $client->getUser(
+        accessToken: $tokens->getAccessToken()
+    );
 
     // Log user in
     echo json_encode([
-        'tokens' => $tokens,
-        'newTokens' => $newTokens,
-        'user' => $user,
+        'tokens' => [
+            'accessToken' => $tokens->getAccessToken(),
+            'refreshToken' => $tokens->getRefreshToken(),
+            'expiresAt' => $tokens->getExpiresAt(),
+        ],
+        'user' => [
+            "allowed" => $user->isAllowed(),
+            "id" => $user->getId(),
+            "email" => $user->getEmail(),
+            "emailVerified" => $user->isEmailVerified(),
+            "roles" => $user->getRoles(),
+        ],
     ]);
 } catch (\Throwable $th) {
     echo $th->getMessage();

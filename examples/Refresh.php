@@ -19,7 +19,11 @@ try {
         refreshToken: $refresh_token
     );
 
-    echo json_encode($newTokens);
+    echo json_encode([
+        'accessToken' => $newTokens->getAccessToken(),
+        'refreshToken' => $newTokens->getRefreshToken(),
+        'expiresAt' => $newTokens->getExpiresAt(),
+    ]);
 } catch (\Throwable $th) {
     echo $th->getMessage();
     exit;
