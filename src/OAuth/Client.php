@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace CQ\OAuth;
 
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Exception\TransferException;
-use CQ\OAuth\Exceptions\RequestException;
 use CQ\OAuth\Flows\FlowProvider;
 use CQ\OAuth\Models\Token;
 use CQ\OAuth\Models\User;
@@ -18,11 +15,13 @@ final class Client
 
     public function __construct(
         private FlowProvider $flowProvider,
-        private string $authorizationServer,
+        string $authorizationServer,
         private string $clientId,
         private string $clientSecret,
     ) {
-        $this->endpoints = $this->setEndpoints();
+        $this->endpoints = $this->setEndpoints(
+            authorizationServer: $authorizationServer
+        );
 
         $flowProvider->setClient(
             client: $this,
@@ -54,7 +53,7 @@ final class Client
     /**
      * Refresh access_token, returns access and refresh token
      */
-    public function refresh(string $refreshToken) : Token
+    public function refresh(string $refreshToken): Token
     {
         $authorization = Request::send(
             method: 'POST',
@@ -113,11 +112,11 @@ final class Client
     /**
      * Query OAuth server and return endpoints
      */
-    private function setEndpoints(): object
+    private function setEndpoints(string $authorizationServer): object
     {
         $config = Request::send(
             method: 'GET',
-            path: '/.well-known/openid-configuration' // TODO: baseUri
+            path: $authorizationServer . '/.well-known/openid-configuration'
         );
 
         return (object) [
