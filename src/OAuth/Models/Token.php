@@ -13,16 +13,18 @@ final class Token
     ) {
     }
 
-    public function getAccessToken() : string
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
 
-    public function getRefreshToken() : string {
+    public function getRefreshToken(): string
+    {
         return $this->refreshToken;
     }
 
-    public function getExpiresAt() : int {
+    public function getExpiresAt(): int
+    {
         return $this->expiresAt;
     }
 }

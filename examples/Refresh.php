@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CQ\OAuth\Client;
 use CQ\OAuth\Flows\Provider\AuthorizationCode;
 

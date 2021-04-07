@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CQ\OAuth\Client;
 use CQ\OAuth\Flows\Provider\Device;
 
@@ -16,7 +18,7 @@ try {
         clientSecret: 'GyICvwFbp2Ihf2snmcxA4gZmEhbbelqAL0oGzEd19Xg'
     );
 
-    if (!isset($_GET['confirm'])) {
+    if (! isset($_GET['confirm'])) {
         $start = $client->start();
 
         // Save device_code

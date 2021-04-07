@@ -15,27 +15,27 @@ final class User
     ) {
     }
 
-    public function isAllowed() : bool
+    public function isAllowed(): bool
     {
         return $this->allowed;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getEmailVerified() : bool
+    public function getEmailVerified(): bool
     {
         return $this->emailVerified;
     }
 
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->roles;
     }
