@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "cubequence/request",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CubeQuence/request.git",
-                "reference": "162d72f1e00dfafd0fcb9a3a142303a50ddf93e7"
+                "reference": "84c8008f7635b59c90a64d43164e1188211e94ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CubeQuence/request/zipball/162d72f1e00dfafd0fcb9a3a142303a50ddf93e7",
-                "reference": "162d72f1e00dfafd0fcb9a3a142303a50ddf93e7",
+                "url": "https://api.github.com/repos/CubeQuence/request/zipball/84c8008f7635b59c90a64d43164e1188211e94ed",
+                "reference": "84c8008f7635b59c90a64d43164e1188211e94ed",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "issues": "https://github.com/CubeQuence/Request/issues",
                 "source": "https://github.com/CubeQuence/Request"
             },
-            "time": "2021-04-07T07:41:02+00:00"
+            "time": "2021-04-07T09:32:33+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
