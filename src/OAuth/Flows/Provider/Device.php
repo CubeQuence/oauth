@@ -6,6 +6,8 @@ namespace CQ\OAuth\Flows\Provider;
 
 use CQ\OAuth\Exceptions\AuthException;
 use CQ\OAuth\Flows\FlowProvider;
+use CQ\OAuth\Models\Token;
+use CQ\Request\Request;
 
 final class Device extends FlowProvider
 {
@@ -17,7 +19,7 @@ final class Device extends FlowProvider
     public function start(): object
     {
         $path = $this->endpoints->device_authorization . '?client_id=' . $this->clientId;
-        $auth_request = $this->client->sendRaw(
+        $auth_request = Request::send(
             method: 'POST',
             path: $path
         );
@@ -28,10 +30,10 @@ final class Device extends FlowProvider
         ];
     }
 
-    public function callback(array $queryParams, string $storedVar): object
+    public function callback(array $queryParams, string $storedVar): Token
     {
         try {
-            $authorization = $this->client->sendRaw(
+            $authorization = Request::send(
                 method: 'POST',
                 path: $this->endpoints->token,
                 form: [
@@ -42,19 +44,21 @@ final class Device extends FlowProvider
                 ]
             );
         } catch (\Throwable $th) {
-            $error = json_decode(json: $th->getMessage())->error;
+            var_dump($th->getMessage()); // TODO: check response
 
-            match ($error) {
-                'authorization_pending' => throw new AuthException(),
-                'expired_token' => throw new AuthException('The request has expired!'),
-                default => throw new AuthException('Invalid request!'),
+            $errorMsg = match ($th->getMessage()) {
+                'authorization_pending' => '',
+                'expired_token' => 'The request has expired!',
+                default => 'Invalid request!',
             };
+
+            throw new AuthException($errorMsg);
         }
 
-        return (object) [
-            'access_token' => $authorization->access_token,
-            'refresh_token' => $authorization->refresh_token,
-            'expires_at' => time() + $authorization->expires_in,
-        ];
+        return new Token(
+            accessToken: $authorization->access_token,
+            refreshToken: $authorization->refresh_token,
+            expiresAt: time() + $authorization->expires_in
+        );
     }
 }

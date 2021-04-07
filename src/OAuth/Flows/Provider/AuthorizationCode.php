@@ -7,6 +7,8 @@ namespace CQ\OAuth\Flows\Provider;
 use CQ\OAuth\Exceptions\AuthException;
 use CQ\OAuth\Flows\FlowProvider;
 use CQ\OAuth\Helpers\Random;
+use CQ\OAuth\Models\Token;
+use CQ\Request\Request;
 
 final class AuthorizationCode extends FlowProvider
 {
@@ -35,7 +37,7 @@ final class AuthorizationCode extends FlowProvider
         ];
     }
 
-    public function callback(array $queryParams, string $storedVar): object
+    public function callback(array $queryParams, string $storedVar): Token
     {
         $code = $queryParams['code'];
         $state = $queryParams['state'];
@@ -44,7 +46,7 @@ final class AuthorizationCode extends FlowProvider
             throw new AuthException('Invalid state!');
         }
 
-        $authorization = $this->client->sendRaw(
+        $authorization = Request::send(
             method: 'POST',
             path: $this->endpoints->token,
             form: [
@@ -56,10 +58,10 @@ final class AuthorizationCode extends FlowProvider
             ]
         );
 
-        return (object) [
-            'access_token' => $authorization->access_token,
-            'refresh_token' => $authorization->refresh_token,
-            'expires_at' => time() + $authorization->expires_in,
-        ];
+        return new Token(
+            accessToken: $authorization->access_token,
+            refreshToken: $authorization->refresh_token,
+            expiresAt: time() + $authorization->expires_in
+        );
     }
 }

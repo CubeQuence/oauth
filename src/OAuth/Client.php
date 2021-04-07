@@ -8,6 +8,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\TransferException;
 use CQ\OAuth\Exceptions\RequestException;
 use CQ\OAuth\Flows\FlowProvider;
+use CQ\OAuth\Models\Token;
+use CQ\OAuth\Models\User;
+use CQ\Request\Request;
 
 final class Client
 {
@@ -30,52 +33,6 @@ final class Client
     }
 
     /**
-     * Send request to API
-     */
-    public function sendRaw(
-        string $method,
-        string $path,
-        array | null $json = null,
-        array | null $form = null,
-        array | null $headers = null
-    ): object {
-        $client = new GuzzleClient([
-            'base_uri' => $this->authorizationServer,
-            'timeout' => 2.0,
-        ]);
-
-        $query = null;
-
-        if (strpos($path, '?') !== false) {
-            [$path, $query] = explode('?', $path, 2);
-        }
-
-        try {
-            $response = $client->request($method, $path, [
-                'headers' => $headers,
-                'query' => $query,
-                'json' => $json,
-                'form_params' => $form,
-            ]);
-        } catch (TransferException $error) {
-            throw new RequestException(
-                message: $error->getMessage(),
-                code: $error->getCode(),
-                previous: $error
-            );
-        }
-
-        $output = $response->getBody()->getContents();
-
-        // Handle NoContent responses
-        if (! $output) {
-            return (object) [];
-        }
-
-        return json_decode($output);
-    }
-
-    /**
      * Start OAuth flow, returns data based on flow type
      */
     public function start(): object
@@ -86,7 +43,7 @@ final class Client
     /**
      * Callback OAuth flow, perform callback operation
      */
-    public function callback(array $queryParams, string $storedVar): object
+    public function callback(array $queryParams, string $storedVar): Token
     {
         return $this->flowProvider->callback(
             queryParams: $queryParams,
@@ -97,9 +54,9 @@ final class Client
     /**
      * Refresh access_token, returns access and refresh token
      */
-    public function refresh(string $refreshToken)
+    public function refresh(string $refreshToken) : Token
     {
-        $authorization = $this->sendRaw(
+        $authorization = Request::send(
             method: 'POST',
             path: $this->endpoints->token,
             form: [
@@ -110,11 +67,11 @@ final class Client
             ]
         );
 
-        return (object) [
-            'access_token' => $authorization->access_token,
-            'refresh_token' => $authorization->refresh_token,
-            'expires_at' => time() + $authorization->expires_in,
-        ];
+        return new Token(
+            accessToken: $authorization->access_token,
+            refreshToken: $authorization->refresh_token,
+            expiresAt: time() + $authorization->expires_in
+        );
     }
 
     /**
@@ -128,9 +85,9 @@ final class Client
     /**
      * Get user info and check if user is allowed to login
      */
-    public function getUser(string $accessToken): object
+    public function getUser(string $accessToken): User
     {
-        $user = $this->sendRaw(
+        $user = Request::send(
             method: 'GET',
             path: $this->endpoints->userinfo,
             headers: [
@@ -144,13 +101,13 @@ final class Client
             $allowed = false;
         }
 
-        return (object) [
-            'allowed' => $allowed,
-            'id' => $user->sub,
-            'email' => $user->email,
-            'email_verified' => $user->email_verified,
-            'roles' => $user?->roles,
-        ];
+        return new User(
+            allowed: $allowed,
+            id: $user->sub,
+            email: $user->email,
+            emailVerified: $user->email_verified,
+            roles: $user->roles
+        );
     }
 
     /**
@@ -158,9 +115,9 @@ final class Client
      */
     private function setEndpoints(): object
     {
-        $config = $this->sendRaw(
+        $config = Request::send(
             method: 'GET',
-            path: '/.well-known/openid-configuration'
+            path: '/.well-known/openid-configuration' // TODO: baseUri
         );
 
         return (object) [

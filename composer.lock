@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a0217708b7ca1db8d8eb6d70e596680",
+    "content-hash": "467690bb21268d6f5dea886ae6abc10e",
     "packages": [
+        {
+            "name": "cubequence/request",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CubeQuence/request.git",
+                "reference": "162d72f1e00dfafd0fcb9a3a142303a50ddf93e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CubeQuence/request/zipball/162d72f1e00dfafd0fcb9a3a142303a50ddf93e7",
+                "reference": "162d72f1e00dfafd0fcb9a3a142303a50ddf93e7",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.3",
+                "php": ">=8.0.0"
+            },
+            "require-dev": {
+                "nunomaduro/phpinsights": "dev-master",
+                "pestphp/pest": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CQ\\Request\\": "src/Request"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luca Castelnuovo",
+                    "email": "luca@castelnuovo.xyz"
+                }
+            ],
+            "description": "A simplified Guzzle client for CubeQuence",
+            "keywords": [
+                "Guzzle",
+                "cubequence"
+            ],
+            "support": {
+                "issues": "https://github.com/CubeQuence/Request/issues",
+                "source": "https://github.com/CubeQuence/Request"
+            },
+            "time": "2021-04-07T07:41:02+00:00"
+        },
         {
             "name": "guzzlehttp/guzzle",
             "version": "7.3.0",
