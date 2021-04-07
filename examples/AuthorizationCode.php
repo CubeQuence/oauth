@@ -45,11 +45,11 @@ try {
             'expiresAt' => $tokens->getExpiresAt(),
         ],
         'user' => [
-            "allowed" => $user->isAllowed(),
-            "id" => $user->getId(),
-            "email" => $user->getEmail(),
-            "emailVerified" => $user->isEmailVerified(),
-            "roles" => $user->getRoles(),
+            'allowed' => $user->isAllowed(),
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'emailVerified' => $user->isEmailVerified(),
+            'roles' => $user->getRoles(),
         ],
     ]);
 } catch (\Throwable $th) {
