@@ -30,7 +30,7 @@ final class User
         return $this->email;
     }
 
-    public function getEmailVerified(): bool
+    public function isEmailVerified(): bool
     {
         return $this->emailVerified;
     }
