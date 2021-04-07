@@ -8,6 +8,7 @@ use CQ\OAuth\Exceptions\AuthException;
 use CQ\OAuth\Flows\FlowProvider;
 use CQ\OAuth\Models\Token;
 use CQ\Request\Request;
+use CQ\Request\Exceptions\BadResponseException;
 
 final class Device extends FlowProvider
 {
@@ -21,7 +22,10 @@ final class Device extends FlowProvider
         $path = $this->endpoints->device_authorization . '?client_id=' . $this->clientId;
         $auth_request = Request::send(
             method: 'POST',
-            path: $path
+            path: $path,
+            form: [
+                "scope" => "offline_access",
+            ]
         );
 
         return (object) [
@@ -43,10 +47,10 @@ final class Device extends FlowProvider
                     'device_code' => $storedVar,
                 ]
             );
-        } catch (\Throwable $th) {
-            var_dump($th->getMessage()); // TODO: check response
+        } catch (BadResponseException $error) {
+            $errorCode = json_decode($error->getMessage())->error;
 
-            $errorMsg = match ($th->getMessage()) {
+            $errorMsg = match ($errorCode) {
                 'authorization_pending' => '',
                 'expired_token' => 'The request has expired!',
                 default => 'Invalid request!',
