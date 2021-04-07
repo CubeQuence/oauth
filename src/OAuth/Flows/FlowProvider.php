@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CQ\OAuth\Flows;
 
 use CQ\OAuth\Client;
+use CQ\OAuth\Models\Token;
 
 abstract class FlowProvider
 {
@@ -37,5 +38,5 @@ abstract class FlowProvider
     /**
      * Callback OAuth flow
      */
-    abstract public function callback(array $queryParams, string $storedVar): object;
+    abstract public function callback(array $queryParams, string $storedVar): Token;
 }

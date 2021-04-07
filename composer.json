@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=8.0.0",
-        "guzzlehttp/guzzle": "^7.0"
+        "cubequence/request": "^1.0"
     },
     "require-dev": {
         "nunomaduro/phpinsights": "dev-master",
@@ -28,7 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CQ\\Auth\\": "src/OAuth"
+            "CQ\\OAuth\\": "src/OAuth"
         }
     },
     "minimum-stability": "dev",

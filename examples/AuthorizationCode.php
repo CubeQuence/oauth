@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use CQ\OAuth\Client;
 use CQ\OAuth\Flows\Provider\AuthorizationCode;
 
@@ -13,7 +15,7 @@ try {
         clientSecret: 'GyICvwFbp2Ihf2snmcxA4gZmEhbbelqAL0oGzEd19Xg'
     );
 
-    if (!isset($_GET['code'])) {
+    if (! isset($_GET['code'])) {
         $start = $client->start();
 
         // Save state
@@ -31,13 +33,24 @@ try {
         storedVar: $_SESSION['state']
     );
 
-    $user = $client->getUser($tokens->access_token);
+    $user = $client->getUser(
+        accessToken: $tokens->getAccessToken()
+    );
 
     // Log user in
     echo json_encode([
-        'tokens' => $tokens,
-        'newTokens' => $newTokens,
-        'user' => $user,
+        'tokens' => [
+            'accessToken' => $tokens->getAccessToken(),
+            'refreshToken' => $tokens->getRefreshToken(),
+            'expiresAt' => $tokens->getExpiresAt(),
+        ],
+        'user' => [
+            "allowed" => $user->isAllowed(),
+            "id" => $user->getId(),
+            "email" => $user->getEmail(),
+            "emailVerified" => $user->isEmailVerified(),
+            "roles" => $user->getRoles(),
+        ],
     ]);
 } catch (\Throwable $th) {
     echo $th->getMessage();
