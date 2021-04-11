@@ -39,4 +39,13 @@ final class User
     {
         return $this->roles;
     }
+
+    public function hasRole(string $role) : bool
+    {
+        return in_array(
+            needle: $role,
+            haystack: $this->roles,
+            strict: true
+        );
+    }
 }
