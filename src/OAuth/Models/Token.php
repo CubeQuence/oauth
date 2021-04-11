@@ -27,4 +27,9 @@ final class Token
     {
         return $this->expiresAt;
     }
+
+    public function hasExpired() : bool
+    {
+        return $this->expiresAt > time();
+    }
 }
