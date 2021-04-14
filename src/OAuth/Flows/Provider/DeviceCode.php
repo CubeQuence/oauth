@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace CQ\OAuth\Flows\Provider;
 
-use CQ\OAuth\Exceptions\AuthException;
+use CQ\OAuth\Exceptions\OAuthException;
 use CQ\OAuth\Flows\FlowProvider;
-use CQ\OAuth\Models\Token;
+use CQ\OAuth\Models\TokenModel;
 use CQ\Request\Request;
 use CQ\Request\Exceptions\BadResponseException;
 
-final class Device extends FlowProvider
+final class DeviceCode extends FlowProvider
 {
     public function __construct(
         private string $qrApi = 'https://api.castelnuovo.xyz/qr?data='
@@ -34,7 +34,7 @@ final class Device extends FlowProvider
         ];
     }
 
-    public function callback(array $queryParams, string $storedVar): Token
+    public function callback(array $queryParams, string $storedVar): TokenModel
     {
         try {
             $authorization = Request::send(
@@ -56,10 +56,10 @@ final class Device extends FlowProvider
                 default => 'Invalid request!',
             };
 
-            throw new AuthException($errorMsg);
+            throw new OAuthException($errorMsg);
         }
 
-        return new Token(
+        return new TokenModel(
             accessToken: $authorization->access_token,
             refreshToken: $authorization->refresh_token,
             expiresAt: time() + $authorization->expires_in

@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 use CQ\OAuth\Client;
-use CQ\OAuth\Flows\Provider\Device;
+use CQ\OAuth\Flows\Provider\DeviceCode;
 
 session_start();
 
 try {
     $client = new Client(
-        flowProvider: new Device(
+        flowProvider: new DeviceCode(
             // This API will be used if variable is not set
             qrApi: 'https://api.castelnuovo.xyz/qr?data='
         ),

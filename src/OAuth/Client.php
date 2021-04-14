@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CQ\OAuth;
 
 use CQ\OAuth\Flows\FlowProvider;
-use CQ\OAuth\Models\Token;
+use CQ\OAuth\Models\TokenModel;
 use CQ\OAuth\Models\User;
 use CQ\Request\Request;
 
@@ -42,7 +42,7 @@ final class Client
     /**
      * Callback OAuth flow, perform callback operation
      */
-    public function callback(array $queryParams, string $storedVar): Token
+    public function callback(array $queryParams, string $storedVar): TokenModel
     {
         return $this->flowProvider->callback(
             queryParams: $queryParams,
@@ -53,7 +53,7 @@ final class Client
     /**
      * Refresh access_token, returns access and refresh token
      */
-    public function refresh(string $refreshToken): Token
+    public function refresh(string $refreshToken): TokenModel
     {
         $authorization = Request::send(
             method: 'POST',
@@ -66,7 +66,7 @@ final class Client
             ]
         );
 
-        return new Token(
+        return new TokenModel(
             accessToken: $authorization->access_token,
             refreshToken: $authorization->refresh_token,
             expiresAt: time() + $authorization->expires_in

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CQ\OAuth\Models;
 
-final class Token
+final class TokenModel
 {
     public function __construct(
         private string $accessToken,
@@ -28,7 +28,7 @@ final class Token
         return $this->expiresAt;
     }
 
-    public function hasExpired() : bool
+    public function hasExpired(): bool
     {
         return $this->expiresAt > time();
     }
