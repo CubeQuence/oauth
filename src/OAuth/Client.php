@@ -6,7 +6,7 @@ namespace CQ\OAuth;
 
 use CQ\OAuth\Flows\FlowProvider;
 use CQ\OAuth\Models\TokenModel;
-use CQ\OAuth\Models\User;
+use CQ\OAuth\Models\UserModel;
 use CQ\Request\Request;
 
 final class Client
@@ -84,7 +84,7 @@ final class Client
     /**
      * Get user info and check if user is allowed to login
      */
-    public function getUser(string $accessToken): User
+    public function getUser(string $accessToken): UserModel
     {
         $user = Request::send(
             method: 'GET',
@@ -96,11 +96,11 @@ final class Client
 
         $allowed = true;
 
-        if (! $user?->email_verified || ! $user?->roles) {
+        if (!$user?->email_verified || !$user?->roles) {
             $allowed = false;
         }
 
-        return new User(
+        return new UserModel(
             allowed: $allowed,
             id: $user->sub,
             email: $user->email,
