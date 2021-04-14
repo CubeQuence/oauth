@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CQ\OAuth\Models;
 
-final class User
+final class UserModel
 {
     public function __construct(
         private bool $allowed,
