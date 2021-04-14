@@ -6,6 +6,6 @@ namespace CQ\OAuth\Exceptions;
 
 use Exception;
 
-final class AuthException extends Exception
+final class OAuthException extends Exception
 {
 }
